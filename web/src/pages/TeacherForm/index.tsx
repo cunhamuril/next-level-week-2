@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from "react";
+import { useHistory } from "react-router-dom";
 
 import api from "../../services/api";
 
@@ -24,6 +25,8 @@ function TeacherForm() {
     { week_day: 0, from: "", to: "" },
   ]);
 
+  const history = useHistory();
+
   function addNewScheduleItem() {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
   }
@@ -43,6 +46,7 @@ function TeacherForm() {
       })
       .then(() => {
         alert("Cadastro realizado com sucesso!");
+        history.push("/");
       })
       .catch((err) => {
         console.error(err.response);
