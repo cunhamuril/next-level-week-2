@@ -5,12 +5,9 @@ import api from "../../services/api";
 
 import warningIcon from "../../assets/images/icons/warning.svg";
 
-import PageHeader from "../../components/PageHeader";
-import Input from "../../components/Input";
-import Textarea from "../../components/Textarea";
-import Select from "../../components/Select";
+import { Input, Textarea, Select } from "../../components";
 
-import "./styles.css";
+import { TeacherFormContainer, PageHeader, Main } from "./styles";
 
 function TeacherForm() {
   const [name, setName] = useState("");
@@ -71,13 +68,13 @@ function TeacherForm() {
   }
 
   return (
-    <div id="page-teacher-form" className="container">
+    <TeacherFormContainer>
       <PageHeader
         title="Que incrível que você quer dar aulas"
         description="O primeiro passo é preencher esse formulário de inscrição"
       />
 
-      <main>
+      <Main>
         <form onSubmit={createNewClass}>
           <fieldset>
             <legend>Seus dados</legend>
@@ -196,8 +193,8 @@ function TeacherForm() {
             <button type="submit">Salvar cadastro</button>
           </footer>
         </form>
-      </main>
-    </div>
+      </Main>
+    </TeacherFormContainer>
   );
 }
 

@@ -7,7 +7,7 @@ import TeacherItem, { Teacher } from "../../components/TeacherItem";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 
-import "./styles.css";
+import { TeacherListContainer, SearchTeachersForm, Main } from "./styles";
 
 function TeacherList() {
   const [teachers, setTeachers] = useState([]);
@@ -35,9 +35,9 @@ function TeacherList() {
   }
 
   return (
-    <div id="page-teacher-list" className="container">
+    <TeacherListContainer>
       <PageHeader title="Estes são os proffys disponíveis">
-        <form id="search-teachers" onSubmit={searchTeachers}>
+        <SearchTeachersForm onSubmit={searchTeachers}>
           <Select
             name="subject"
             label="Matéria"
@@ -81,15 +81,15 @@ function TeacherList() {
           />
 
           <button type="submit">Buscar</button>
-        </form>
+        </SearchTeachersForm>
       </PageHeader>
 
-      <main>
+      <Main>
         {teachers.map((teacher: Teacher) => (
           <TeacherItem key={teacher.id} teacher={teacher} />
         ))}
-      </main>
-    </div>
+      </Main>
+    </TeacherListContainer>
   );
 }
 
