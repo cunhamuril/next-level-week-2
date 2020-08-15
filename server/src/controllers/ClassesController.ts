@@ -40,24 +40,44 @@ export default class ClassesController {
   }
 
   async create(req: Request, res: Response) {
-    const { name, avatar, whatsapp, bio, subject, cost, schedule } = req.body;
+    const {
+      user_id,
+      avatar,
+      whatsapp,
+      bio,
+      subject,
+      cost,
+      schedule,
+    } = req.body;
 
     const trx = await db.transaction();
 
-    try {
-      const insertedUsersIds = await trx("users").insert({
-        name,
-        avatar,
-        whatsapp,
-        bio,
-      });
+    if (!user_id) {
+      return res.status(400).json({ error: "user_id is required" });
+    }
 
-      const user_id = insertedUsersIds[0];
+    try {
+      const { id } = await trx("users")
+        .select()
+        .where("id", "=", user_id)
+        .first();
+
+      if (!id) {
+        return res.status(400).json({ error: "User not found" });
+      }
+
+      await trx("users")
+        .update({
+          avatar,
+          whatsapp,
+          bio,
+        })
+        .where("id", "=", id);
 
       const insertedClassesIds = await trx("classes").insert({
         subject,
         cost,
-        user_id,
+        user_id: id,
       });
 
       const class_id = insertedClassesIds[0];
@@ -78,6 +98,8 @@ export default class ClassesController {
       return res.status(201).send();
     } catch (err) {
       await trx.rollback();
+
+      console.error(err);
 
       return res.status(400).json({
         error: "Unexpected error while creating new class",
