@@ -17,4 +17,5 @@ export default {
   buttonText: "#ffffff",
   boxBase: "#ffffff",
   boxFooter: "#fafafc",
+  buttonDisabled: "#DCDCE6",
 };

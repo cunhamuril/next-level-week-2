@@ -1,16 +1,29 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
-import Landing from "./pages/Landing";
-import TeacherList from "./pages/TeacherList";
-import TeacherForm from "./pages/TeacherForm";
+import { Landing, TeacherList, TeacherForm, Login } from "./pages";
+
+const PrivateRoute = ({ component: Component, ...rest }: any) => {
+  const isAuthenticated: boolean = true;
+
+  const routeComponent = (props: any) =>
+    isAuthenticated ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to={{ pathname: "/login" }} />
+    );
+
+  return <Route {...rest} render={routeComponent} />;
+};
 
 function Routes() {
   return (
     <BrowserRouter>
-      <Route path="/" exact component={Landing} />
-      <Route path="/study" component={TeacherList} />
-      <Route path="/give-classes" component={TeacherForm} />
+      <Route path="/login" exact component={Login} />
+
+      <PrivateRoute path="/" exact component={Landing} />
+      <PrivateRoute path="/study" component={TeacherList} />
+      <PrivateRoute path="/give-classes" component={TeacherForm} />
     </BrowserRouter>
   );
 }

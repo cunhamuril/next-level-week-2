@@ -36,6 +36,7 @@ export default createGlobalStyle`
   textarea {
     font: 500 1.6rem Poppins;
     color: ${colors.textBase};
+    outline: none;
   }
 
   ${media.greaterThan("medium")`
